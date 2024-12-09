@@ -1,0 +1,30 @@
+[
+    {
+        "id":1,
+        "name":"gobi rice",
+        "price":100.00,
+        "category":"veg",
+        "image":"https://i.ytimg.com/vi/sokYJZ75JpY/sddefault.jpg"
+    },
+    {
+        "id":2,
+        "name":"chicken biryani",
+        "price":150.00,
+        "category":"non-veg",
+        "image":"https://media-assets.swiggy.com/swiggy/image/upload/f_auto,q_auto,fl_lossy/upplwxmbqbgoaygkpvpl"
+    },
+    {
+        "id":3,
+         "name":"mushroom curry",
+         "price":120.00,
+         "category":"veg",
+         "image":"https://shwetainthekitchen.com/wp-content/uploads/2023/03/mutter-mushroom.jpg"
+    },
+    {
+        "id":4,
+        "name":"fish fry",
+        "price":180.00,
+        "category":"non-veg",
+        "image":"https://i.ytimg.com/vi/o8lDCY2_jyw/maxresdefault.jpg"
+    }
+]

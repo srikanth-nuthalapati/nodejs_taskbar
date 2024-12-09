@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <ul class=".pagnation">
+        <li data-page="1" class="active">1</li>
+        <li data-page="2">2</li>
+        <li data-page="3">3</li>
+    </ul>
+    <div class="container"></div>
+
+<script>
+        const container = document.querySelector('.container');
+        const pagination = document.querySelector('ul');
+        const perPage = 10;
+        let data = [];
+
+async function call() {
+    try{
+        const api = await fetch("https://dummyjson.com/products");
+        const response = await api.json();
+        data = response.products;
+        render(1);
+    }
+    catch(error){
+        console.error(error);
+    }
+}
+
+function render(page){
+    container.innerHTML = '';
+    let start = (page - 1) * perPage;
+    let end = start + perPage;
+    let items = data.slice(start,end);
+    
+    items.map((val)=>{
+        let card = document.createElement("div");
+        card.innerHTML = `
+            <h2>${val.title}</h2>
+            <p>${val.description}</p>
+            <img src="${val.images[0]}" alt=${val.title}>
+            <p>Category: ${val.category}</p>
+            <p class="price">Price: $${val.price}</p>
+            <p>Discount: ${val.discountPercentage}%</p>
+            <p>rating: ${val.rating}</p>
+        `;
+
+        container.appendChild(card);
+    });
+
+}
+
+pagination.addEventListener("click",(event)=>{
+    const target = event.target;
+        if (target.tagName === 'LI') {
+            let act = document.querySelector("ul li.active")
+            if(act){
+                act.classList.remove("active")
+            }
+            
+            target.classList.add('active');
+            const page = parseInt(target.dataset.page, 10);
+            render(page);
+        }
+})
+
+call();
+
+</script>
+</body>
+</html>

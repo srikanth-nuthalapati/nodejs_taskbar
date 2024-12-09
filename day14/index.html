@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <form>
+        <h3 style="margin: 0;">register</h3>
+        <input type="text" name="username" placeholder="username" required><br>
+        <input type="email" name="email" placeholder="email" required><br>
+        <input type="number" name="phone" placeholder="Number" required min="0"><br>
+        <input type="password" name="password" placeholder="password" required><br>
+        <div class="box">
+            <button type="submit">submit</button> 
+            <a href="login.html">Login</a>
+        </div>
+    </form>
+    <p id="msg"></p>
+
+    <script>
+        let form = document.querySelector("form");
+        let msg = document.getElementById("msg");
+        let btn = document.querySelector("button");
+
+        btn.addEventListener("click", async function (Event) {
+            Event.preventDefault();
+            let formdata = new FormData(form);
+            let data = Object.fromEntries(formdata.entries());
+            try {
+              let response = await fetch("https://node-login-auth.onrender.com/signup", {
+                  method: "POST",
+                  headers: {
+                      "content-type": "application/json",
+                  },
+                  body: JSON.stringify(data),
+              });
+              if(response.ok){
+                let res = await response.json();
+                msg.innerHTML = res.message;
+                msg.style.color = "green";
+              }
+              else{
+                let res = await response.json();
+                msg.innerHTML = "failed"
+                msg.style.color = "red";
+              }
+            } 
+            catch (err) {
+                msg.innerHTML = err.error;
+                msg.style.color = "red";
+            }
+            
+        });
+    </script>
+</body>
+
+</html>

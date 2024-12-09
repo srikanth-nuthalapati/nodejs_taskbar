@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style> 
+        form {
+            background-color: #ababab;
+            width: 300px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+    </style>
+</head>
+<body>
+    <form enctype="multipart/form-data">
+        <input type="file" name="file" id="file">
+        <button>upload</button>
+    </form>
+
+    <script>
+        const form = document.querySelector('form');
+        
+        const btn = document.querySelector('button');
+
+        btn.addEventListener("click",(E)=>{
+            E.preventDefault();
+            const formData = new FormData();
+            formData.append("file", form.file.files[0]);
+
+            fetch("http://localhost:3000/post",{
+                method: "POST",
+                body: formData
+            })
+            .then((res) =>{
+                if(res.ok){
+                    return res.json();
+                }
+                else{
+                    return res.json().then((err)=>{
+                      throw new Error(err.message) || "upload failed";
+                    })
+                }
+            })
+            .then((data) => {
+                alert(`${data.message}`);
+            })
+            .catch((err) => {
+               alert(`${err.message}`)
+            })
+        },false)
+
+    </script>
+</body>
+</html>

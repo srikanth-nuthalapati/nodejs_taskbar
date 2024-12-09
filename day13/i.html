@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   <style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+    }
+
+    header {
+        background-color: #f2f2f2;
+        height: 80px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+    }
+    #m {
+        margin: 15px 0px;
+        text-align: center;
+        border-bottom: 1px solid;
+    }
+    .container {
+        width: 100%;
+        height: 350px;
+        /* background: #705b5b; */
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .container .veg {
+        width: 46%;
+        height: 100%;
+        box-shadow: 0 0 10px green;
+        border-radius: 5px;
+    }
+
+    .container .non-veg {
+        width: 46%;
+        height: 100%;
+        box-shadow: 0 0 10px red;
+        border-radius: 5px;
+    }
+    td {
+        text-align: center;
+    }
+    img {
+        border-radius: 10%;
+    }
+
+    footer {
+        background-color: #c5baba;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+   </style>
+</head>
+<body>
+   <header>
+     <h1>Bro kitchens 😎</h1>
+   </header>
+<h1 id="m">Menu</h1>
+   <div class="container">
+    <!-- <h2>Menu</h2> -->
+    <table class="veg" border="">
+        <caption><strong>Veg</strong></caption>
+        <tr>
+            <th>title</th>
+            <th>image</th>
+            <th>price</th>
+        </tr>
+    </table>
+
+    <table class="non-veg" border="">
+        <caption><strong>Non - Veg</strong></caption>
+        <tr>
+            <th>title</th>
+            <th>image</th>
+            <th>price</th>
+        </tr>
+    </table>
+    
+   </div>
+
+   <footer>
+    fake street, Nellore, AP, India - 524005
+   </footer>
+
+   <script>
+    let container = document.querySelector(".container");
+    let veg = document.querySelector(".veg");
+    let nonVeg = document.querySelector(".non-veg");
+
+    async function items() {
+        let response = await fetch("http://localhost:3000/menu");
+        let data = await response.json();
+        data.map((val)=>{
+            if(val.category == "veg"){
+               let tr = document.createElement("tr");
+               tr.innerHTML = `
+                  <td>${val.name}</td>
+                  <td><img src="${val.image}" width="100px" alt="${val.name}"></td>
+                  <td>$${val.price}</td>
+               `
+               veg.appendChild(tr);
+            }
+            else{
+                let tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${val.name}</td>
+                    <td><img src="${val.image}" width="100px" alt="${val.name}"></td>
+                    <td>$${val.price}</td>
+                `
+                nonVeg.appendChild(tr);
+            }
+        })
+    }
+    items();
+   </script>
+</body>
+</html>

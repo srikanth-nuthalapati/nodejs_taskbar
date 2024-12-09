@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+       #product {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+       }
+        img {
+            width: 30%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="product"></div>
+
+    <script>
+        var div = document.getElementById("product");
+        
+        let product = JSON.parse(localStorage.getItem("product"));
+        if (product) {
+            div.innerHTML = `
+                <h1>Product Details</h1>
+                <h1>${product.title}</h1>
+                <img src="${product.images[0]}">
+                <h3>Brand: ${product.brand}</h3>
+                <p>${product.description}</p>
+                <p>Category: ${product.category}</p>
+                <h3>Price: $${product.price}</h3>
+                <p>Discount: ${product.discountPercentage}</p>
+                <p>rating: ${product.rating}</p>
+                <p>stock: ${product.stock}</p>
+                <p>Tags: ${product.tags.map(tag => `<span>${tag}`).join(', ')}</p>
+                <p><strong>returnPolicy:</strong> ${product.returnPolicy}</p>
+                <p>Sku: ${product.sku}</p>
+                <p>Weight: ${product.weight}</p>
+                <h4>Dimensions: </h4>
+                <p>Width: ${product.dimensions.width}</p>
+                <p>height: ${product.dimensions.height}</p>
+                <p>depth: ${product.dimensions.depth}</p>
+                <h2>Warranty: ${product.warrantyInformation}</h2>
+                <p>Delivery: ${product.shippingInformation}</p>
+                <p>AvailabilityStatus: ${product.availabilityStatus}</p>
+                <h3>Reviews:</h3>
+                ${product.reviews.map(review => `
+                    <div class="review">
+                        <p><strong>Rating:</strong> ${review.rating}</p>
+                        <p><strong>Comment:</strong> ${review.comment}</p>
+                        <p><strong>Date:</strong> ${new Date(review.date).toLocaleDateString()}</p>
+                        <p><strong>Reviewer:</strong> ${review.reviewerName} (${review.reviewerEmail})</p>
+                    </div>
+                `).join("<br>")}
+            `;   
+        }
+        else{
+            console.log("no products");
+        }
+
+    </script>
+</body>
+</html>

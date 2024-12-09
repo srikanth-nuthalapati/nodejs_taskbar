@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            height: 100%;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container"></div>
+
+    <script>
+        let con = document.querySelector(".container");
+        async function get() {
+            let api = await fetch("http://localhost:3000/products");
+            let response = await api.json();
+            
+            response.map((val)=>{
+                let card = document.createElement("div")
+                card.style.width = "300px";
+                card.style.border = "2px solid";
+                card.style.textAlign = "center";
+                card.innerHTML = `
+                <h2>${val.title}</h2>
+                <img src="${val.image}" width="100px">
+                <h3>Price: $${val.price}</h2>
+                `
+                con.append(card);
+            })
+           
+        }
+
+        get();
+    </script>
+</body>
+</html>
