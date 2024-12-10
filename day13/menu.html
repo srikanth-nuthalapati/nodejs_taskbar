@@ -9,6 +9,9 @@
         box-sizing: border-box;
         margin: 0;
     }
+    body {
+        height: 100%;
+    }
 
     header {
         background-color: #f2f2f2;
@@ -25,8 +28,8 @@
     }
     .container {
         width: 100%;
-        height: 350px;
-        /* background: #705b5b; */
+        /* background: #000; */
+        height: 100%;
         display: flex;
         justify-content: space-around;
     }
@@ -53,12 +56,11 @@
 
     footer {
         background-color: #c5baba;
+        margin-top: 50px;
         height: 50px;
         display: flex;
         justify-content: center;
         align-items: center;
-        position: absolute;
-        bottom: 0;
         width: 100%;
     }
    </style>
@@ -67,9 +69,8 @@
    <header>
      <h1>Bro kitchens 😎</h1>
    </header>
-<h1 id="m">Menu</h1>
+    <h1 id="m">Menu</h1>
    <div class="container">
-    <!-- <h2>Menu</h2> -->
     <table class="veg" border="">
         <caption><strong>Veg</strong></caption>
         <tr>
@@ -100,7 +101,7 @@
     let nonVeg = document.querySelector(".non-veg");
 
     async function items() {
-        let response = await fetch("http://localhost:3000/menu");
+        let response = await fetch("https://restaurant-menu-6594.onrender.com/menu");
         let data = await response.json();
         data.map((val)=>{
             if(val.category == "veg"){
