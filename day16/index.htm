@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <input type="email" name="email" placeholder="email" id="email">
+        <button id="send-otp">send otp</button><br>
+        <input type="text" name="otp" placeholder="otp" id="otp">
+        <button id="verify">verify</button>
+    </form>
+
+    <script>
+        let send_otp = document.querySelector("#send-otp");
+        let verify = document.querySelector("#verify");
+        let email = document.querySelector("#email");
+        let otp = document.querySelector("#otp");
+
+        send_otp.addEventListener("click", async(e)=>{
+            e.preventDefault();
+            let email_val = email.value;
+            let response = await fetch('http://localhost:3000/gmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({email: email_val})
+                });
+            if(!response.ok){
+                alert("error");
+                return;
+            }
+            let data = await response.json();
+                alert("otp sent successfully");
+        });
+
+        verify.addEventListener("click",async (e)=>{
+            e.preventDefault();
+            let email_val = email.value;
+            let code = otp.value;
+            let response = await fetch('http://localhost:3000/verify',{
+                method:'POST',
+                headers:{
+                    "Content-Type": "application/json",
+                },
+                body:JSON.stringify({email:email_val, otp:code})
+            });
+            if(!response.ok){
+                alert("OTP verification failed");
+                return;
+            }
+            let data = await response.json();
+            alert("OTP verified successfully");
+        });
+    </script>
+</body>
+</html>

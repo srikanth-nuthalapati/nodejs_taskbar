@@ -1,4 +1,4 @@
-const otp = function otp(){
+module.exports = function otp(){
     let i=0;
     let code = "";
     while(i<5){
@@ -8,6 +8,5 @@ const otp = function otp(){
     return code;
 }
 
-module.exports = otp;
 
 

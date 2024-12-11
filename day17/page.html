@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            text-align: center;
+        }
+        .container {
+            width: 100%;
+            height: 70vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .box {
+            border-radius: 5px;
+            background-color: aquamarine;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+        .btn-box {
+            width: 100%;
+            text-align: center;
+        }
+        .btn-box #prev-btn:not(:disabled),
+        .btn-box #next-btn:not(:disabled){
+            background-color: rgb(50, 128, 56);
+        }
+        .btn-box #prev-btn,
+        .btn-box #next-btn {
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-box #prev-btn:hover:not(:disabled),
+        .btn-box #next-btn:hover:not(:disabled) {
+            background: #a9def7;
+        }
+        .btn-box #prev-btn:disabled,
+        .btn-box #next-btn:disabled {
+            cursor: not-allowed;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Pagination</h1>
+    <div class="container"></div>
+
+    <div class="btn-box">
+        <button id="prev-btn" disabled>prev</button>
+        <button id="next-btn">next</button>
+    </div>
+
+    <script>
+        let prev = document.querySelector("#prev-btn");
+        let next = document.querySelector("#next-btn");
+
+        let currentpage = 1;
+        let limit = 4;
+
+        async function Pagination(page) {
+            try{
+                let api = await fetch(`http://localhost:3000/emp?page=${page}&limit=${limit}`);
+                let response = await api.json();
+                if(response.status == 200){
+                    let container = document.querySelector(".container");
+                    container.innerHTML = "";
+                    response.message.data.forEach((val) =>{ 
+                    let box = document.createElement("div");
+                    box.className = "box";
+                    box.innerHTML = `
+                      <p><b>EmpNo:</b> ${val.empno}</p>
+                      <p><b>Name:</b> ${val.ename}</P>
+                      <p><b>Job:</b> ${val.job}</P>
+                      <p><b>Salary:</b> ${val.sal}</P>
+                    `
+                    container.appendChild(box)
+                    });
+
+                    let totalPages = response.message.totalpages;
+                    
+                    prev.disabled = currentpage === 1;
+                    next.disabled = currentpage >= totalPages; 
+                }
+                else{
+                    alert(`error: ${response.message}`);
+                }
+            }
+            catch(err){
+                alert("Error fetching data ", err)
+            }
+        }
+
+        prev.addEventListener("click",()=>{
+            if(currentpage > 1){
+                currentpage--;
+                Pagination(currentpage);
+            }
+        });
+
+        next.addEventListener("click",()=>{
+            currentpage++;
+            Pagination(currentpage);
+        });
+
+        Pagination(currentpage);
+    </script>
+</body>
+</html>
